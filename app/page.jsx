@@ -4,6 +4,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 
 const ECI_SOURCE_URL = 'https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S25.htm';
+const ROUND_WISE_SOURCES = [
+  {
+    ac: '169',
+    label: 'AC 169 Round-wise Result',
+    url: 'https://results.eci.gov.in/ResultAcGenMay2026/RoundwiseS25169.htm?ac=169'
+  },
+  {
+    ac: '159',
+    label: 'AC 159 Round-wise Result',
+    url: 'https://results.eci.gov.in/ResultAcGenMay2026/RoundwiseS25159.htm'
+  }
+];
 
 export default function Page() {
   const [data, setData] = useState(null);
@@ -30,6 +42,7 @@ export default function Page() {
   }, []);
 
   const parties = data?.parties || [];
+  const roundWiseSources = data?.roundWiseSources?.length ? data.roundWiseSources : ROUND_WISE_SOURCES;
   const maxSeats = useMemo(() => Math.max(...parties.map((party) => party.total || party.won || 0), 1), [parties]);
   const leader = parties[0];
 
@@ -116,6 +129,25 @@ export default function Page() {
             })}
           </div>
         )}
+      </section>
+
+      <section className="panel">
+        <div className="panelHeader">
+          <div>
+            <h2>Official Round-wise Constituency Pages</h2>
+            <p>Direct links from Election Commission of India for West Bengal S25 constituencies.</p>
+          </div>
+          <div className="pill">{roundWiseSources.length} ECI links</div>
+        </div>
+        <div className="roundGrid">
+          {roundWiseSources.map((source) => (
+            <a className="roundCard" href={source.url} target="_blank" rel="noreferrer" key={source.url}>
+              <span>West Bengal • S25 • AC {source.ac}</span>
+              <strong>{source.label}</strong>
+              <small>{source.url}</small>
+            </a>
+          ))}
+        </div>
       </section>
 
       <footer>
