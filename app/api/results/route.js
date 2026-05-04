@@ -1,4 +1,16 @@
 const ECI_WEST_BENGAL_PARTY_WISE_URL = 'https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S25.htm';
+const ECI_ROUND_WISE_URLS = [
+  {
+    ac: '169',
+    label: 'AC 169 Round-wise Result',
+    url: 'https://results.eci.gov.in/ResultAcGenMay2026/RoundwiseS25169.htm?ac=169'
+  },
+  {
+    ac: '159',
+    label: 'AC 159 Round-wise Result',
+    url: 'https://results.eci.gov.in/ResultAcGenMay2026/RoundwiseS25159.htm'
+  }
+];
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -106,6 +118,7 @@ export async function GET() {
       stateCode: 'S25',
       sourceType: 'Official Election Commission of India result page only',
       sourceUrl: ECI_WEST_BENGAL_PARTY_WISE_URL,
+      roundWiseSources: ECI_ROUND_WISE_URLS,
       fetchedAt: new Date().toISOString(),
       totalSeats: parties.reduce((sum, party) => sum + (party.total || 0), 0),
       parties
@@ -117,6 +130,7 @@ export async function GET() {
         stateCode: 'S25',
         sourceType: 'Official Election Commission of India result page only',
         sourceUrl: ECI_WEST_BENGAL_PARTY_WISE_URL,
+        roundWiseSources: ECI_ROUND_WISE_URLS,
         fetchedAt: new Date().toISOString(),
         error: error.message,
         officialViewAvailable: true
