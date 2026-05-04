@@ -65,9 +65,9 @@ export default function Page() {
 
       {error && (
         <div className="alert">
-          <strong>Official ECI server-side fetch blocked.</strong>
+          <strong>Official ECI server-side fetch unavailable.</strong>
           <span>{error}</span>
-          <small>The app intentionally does not show third-party, scraped mirror, cached, or guessed data.</small>
+          <small>The app intentionally does not show third-party, mirror, cached, or guessed data.</small>
         </div>
       )}
 
@@ -92,20 +92,24 @@ export default function Page() {
             <h2>Party-wise Results</h2>
             <p>Source locked to official ECI West Bengal page: S25</p>
           </div>
-          <div className="pill">{loading ? 'Loading' : parties.length ? `${parties.length} parties` : 'Official view'}</div>
+          <div className="pill">{loading ? 'Loading' : parties.length ? `${parties.length} parties` : 'Official source'}</div>
         </div>
 
         {loading && !error && <p className="muted">Loading latest data from Election Commission of India...</p>}
 
         {error && (
           <div className="officialFallback">
-            <h3>Use official ECI source directly</h3>
+            <h3>Open official ECI pages directly</h3>
             <p>
-              ECI is returning HTTP 403 to the Vercel server request. To keep data integrity strict,
-              this site will not use proxies, mirrors, third-party APIs, or fake fallback numbers.
+              The official ECI page is not available through this server request and cannot be shown inside an embedded frame.
+              For strict data integrity, this website only provides direct official ECI links.
             </p>
-            <a href={ECI_SOURCE_URL} target="_blank" rel="noreferrer">Open West Bengal official ECI result page</a>
-            <iframe title="Official ECI West Bengal Result" src={ECI_SOURCE_URL} />
+            <div className="sourceActions">
+              <a href={ECI_SOURCE_URL} target="_blank" rel="noreferrer">Open party-wise West Bengal result</a>
+              {roundWiseSources.map((source) => (
+                <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>Open {source.label}</a>
+              ))}
+            </div>
           </div>
         )}
 
