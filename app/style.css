@@ -78,13 +78,16 @@ p {
   color: var(--muted);
 }
 
-.meta a {
+.meta a,
+.officialFallback a {
   color: #fff;
   text-decoration: none;
   background: var(--blue);
   padding: 11px 15px;
   border-radius: 13px;
   font-weight: 800;
+  display: inline-flex;
+  width: fit-content;
 }
 
 .cards {
@@ -203,6 +206,33 @@ p {
   font-weight: 950;
 }
 
+.officialFallback {
+  display: grid;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px dashed rgba(154, 215, 255, 0.28);
+}
+
+.officialFallback h3 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.officialFallback p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.officialFallback iframe {
+  width: 100%;
+  min-height: 720px;
+  border: 1px solid var(--panel-border);
+  border-radius: 18px;
+  background: white;
+}
+
 .muted {
   color: #9fb0c4;
 }
@@ -237,5 +267,9 @@ footer {
 
   .bar {
     grid-column: 2 / 4;
+  }
+
+  .officialFallback iframe {
+    min-height: 620px;
   }
 }
