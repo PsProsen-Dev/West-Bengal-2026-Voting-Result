@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 
+const ECI_SOURCE_URL = 'https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S25.htm';
+
 export default function Page() {
   const [data, setData] = useState(null);
   const [error, setError] = useState('');
@@ -41,7 +43,7 @@ export default function Page() {
           result page only. No third-party data source or cached fallback is used.
         </p>
         <div className="meta">
-          <a href="https://results.eci.gov.in/ResultAcGenMay2026/partywiseresult-S25.htm" target="_blank" rel="noreferrer">
+          <a href={ECI_SOURCE_URL} target="_blank" rel="noreferrer">
             Open official ECI source ↗
           </a>
           <span>{data?.fetchedAt ? `Updated: ${new Date(data.fetchedAt).toLocaleString()}` : 'Fetching official ECI data...'}</span>
@@ -50,9 +52,9 @@ export default function Page() {
 
       {error && (
         <div className="alert">
-          <strong>Official ECI fetch failed.</strong>
+          <strong>Official ECI server-side fetch blocked.</strong>
           <span>{error}</span>
-          <small>The app intentionally does not show third-party or guessed data.</small>
+          <small>The app intentionally does not show third-party, scraped mirror, cached, or guessed data.</small>
         </div>
       )}
 
@@ -77,29 +79,43 @@ export default function Page() {
             <h2>Party-wise Results</h2>
             <p>Source locked to official ECI West Bengal page: S25</p>
           </div>
-          <div className="pill">{loading ? 'Loading' : parties.length ? `${parties.length} parties` : 'No data'}</div>
+          <div className="pill">{loading ? 'Loading' : parties.length ? `${parties.length} parties` : 'Official view'}</div>
         </div>
 
         {loading && !error && <p className="muted">Loading latest data from Election Commission of India...</p>}
 
-        <div className="table">
-          {parties.map((party, index) => {
-            const value = party.total || party.won || 0;
-            return (
-              <div className="row" key={`${party.party}-${index}`}>
-                <div className="rank">#{index + 1}</div>
-                <div className="party">
-                  <strong>{party.party}</strong>
-                  <small>Won {party.won} • Leading {party.leading}</small>
+        {error && (
+          <div className="officialFallback">
+            <h3>Use official ECI source directly</h3>
+            <p>
+              ECI is returning HTTP 403 to the Vercel server request. To keep data integrity strict,
+              this site will not use proxies, mirrors, third-party APIs, or fake fallback numbers.
+            </p>
+            <a href={ECI_SOURCE_URL} target="_blank" rel="noreferrer">Open West Bengal official ECI result page</a>
+            <iframe title="Official ECI West Bengal Result" src={ECI_SOURCE_URL} />
+          </div>
+        )}
+
+        {!error && (
+          <div className="table">
+            {parties.map((party, index) => {
+              const value = party.total || party.won || 0;
+              return (
+                <div className="row" key={`${party.party}-${index}`}>
+                  <div className="rank">#{index + 1}</div>
+                  <div className="party">
+                    <strong>{party.party}</strong>
+                    <small>Won {party.won} • Leading {party.leading}</small>
+                  </div>
+                  <div className="bar" aria-label={`${party.party} seats`}>
+                    <span style={{ width: `${Math.max(4, (value / maxSeats) * 100)}%` }} />
+                  </div>
+                  <div className="seats">{value}</div>
                 </div>
-                <div className="bar" aria-label={`${party.party} seats`}>
-                  <span style={{ width: `${Math.max(4, (value / maxSeats) * 100)}%` }} />
-                </div>
-                <div className="seats">{value}</div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <footer>
