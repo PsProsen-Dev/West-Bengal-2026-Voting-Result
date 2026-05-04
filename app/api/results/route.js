@@ -77,14 +77,21 @@ export async function GET() {
   try {
     const response = await fetch(ECI_WEST_BENGAL_PARTY_WISE_URL, {
       cache: 'no-store',
+      redirect: 'follow',
       headers: {
-        'user-agent': 'Mozilla/5.0 (compatible; WestBengalResultDashboard/1.0; +https://github.com/PsProsen-Dev/West-Bengal-2026-Voting-Result)',
-        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36',
+        accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
+        'accept-language': 'en-IN,en;q=0.9,hi;q=0.8',
+        'cache-control': 'no-cache',
+        pragma: 'no-cache',
+        referer: 'https://results.eci.gov.in/',
+        origin: 'https://results.eci.gov.in',
+        'upgrade-insecure-requests': '1'
       }
     });
 
     if (!response.ok) {
-      throw new Error(`ECI returned HTTP ${response.status}`);
+      throw new Error(`ECI returned HTTP ${response.status}. The official ECI server is blocking this deployment's server-side request.`);
     }
 
     const html = await response.text();
@@ -111,7 +118,8 @@ export async function GET() {
         sourceType: 'Official Election Commission of India result page only',
         sourceUrl: ECI_WEST_BENGAL_PARTY_WISE_URL,
         fetchedAt: new Date().toISOString(),
-        error: error.message
+        error: error.message,
+        officialViewAvailable: true
       },
       { status: 502 }
     );
