@@ -123,6 +123,7 @@ p {
 
 .panel {
   padding: 24px;
+  margin-top: 22px;
 }
 
 .panelHeader {
@@ -233,6 +234,46 @@ p {
   background: white;
 }
 
+.roundGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.roundCard {
+  display: grid;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(154, 215, 255, 0.2);
+  color: var(--text);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.roundCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(154, 215, 255, 0.45);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.roundCard span {
+  color: #9ad7ff;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.roundCard strong {
+  font-size: 22px;
+}
+
+.roundCard small {
+  color: #91a2b6;
+  line-height: 1.5;
+}
+
 .muted {
   color: #9fb0c4;
 }
@@ -253,7 +294,8 @@ footer {
     padding: 30px 20px;
   }
 
-  .cards {
+  .cards,
+  .roundGrid {
     grid-template-columns: 1fr;
   }
 
