@@ -226,12 +226,10 @@ p {
   font-size: 16px;
 }
 
-.officialFallback iframe {
-  width: 100%;
-  min-height: 720px;
-  border: 1px solid var(--panel-border);
-  border-radius: 18px;
-  background: white;
+.sourceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .roundGrid {
@@ -309,9 +307,5 @@ footer {
 
   .bar {
     grid-column: 2 / 4;
-  }
-
-  .officialFallback iframe {
-    min-height: 620px;
   }
 }
