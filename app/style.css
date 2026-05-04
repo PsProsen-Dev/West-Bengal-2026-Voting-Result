@@ -100,10 +100,55 @@ p { color: #b7c6d8; font-size: 18px; line-height: 1.65; max-width: 790px; }
 .roundCard strong { font-size: 22px; }
 .roundCard small { color: #91a2b6; line-height: 1.5; }
 
+.diagramPanel { overflow: hidden; }
+.diagramGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.diagramCard { background: #fff; color: #1f2937; border-radius: 18px; overflow: hidden; box-shadow: 0 22px 55px rgba(0,0,0,.22); border: 1px solid rgba(255,255,255,.16); animation: cardLift .65s ease both; }
+.diagramCard.wideDiagram { grid-column: 1 / 3; }
+.diagramTitle { min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; background: #d7c8ff; color: #0000ee; font-size: clamp(22px, 3vw, 32px); line-height: 1.28; font-weight: 500; border-bottom: 1px solid #c9bbea; }
+.diagramTitle.withSelect { align-items: center; }
+.diagramTitle select { min-width: 230px; height: 34px; background: #fff; border: 1px solid #8b8b95; border-radius: 3px; font-size: 17px; color: #111; }
+.vizStage { padding: 44px 20px 26px; display: grid; place-items: center; }
+.seatDonut { width: min(430px, 78vw); aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--donut-stops)); position: relative; transform: rotate(-90deg); animation: diagramReveal 1.2s cubic-bezier(.2,.9,.2,1) both, softPulse 5s ease-in-out infinite 1.2s; box-shadow: 0 18px 34px rgba(0,0,0,.08); }
+.seatDonut:after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: conic-gradient(from 0deg, rgba(255,255,255,.82) 0deg 1.8deg, transparent 1.8deg 360deg); opacity: .9; mix-blend-mode: screen; }
+.donutHole { position: absolute; inset: 27%; border-radius: 50%; background: #fff; z-index: 2; box-shadow: inset 0 0 0 1px rgba(0,0,0,.04); }
+.chartLegend, .voteLegend { color: #6b7280; }
+.chartLegend { display: flex; justify-content: center; gap: 18px 28px; flex-wrap: wrap; margin-top: 24px; font-size: 21px; }
+.chartLegend span, .voteLegend span { display: inline-flex; align-items: center; gap: 10px; white-space: nowrap; }
+.chartLegend i { width: 68px; height: 16px; display: inline-block; }
+.voteShareLayout { min-height: 430px; padding: 42px 40px 36px; display: grid; grid-template-columns: minmax(180px, 290px) 1fr; align-items: center; gap: 34px; }
+.voteLegend { display: grid; gap: 13px; font-size: 20px; align-content: start; }
+.voteLegend i { width: 72px; height: 18px; display: inline-block; }
+.votePie { width: min(380px, 70vw); aspect-ratio: 1; border-radius: 50%; background: conic-gradient(var(--pie-stops)); animation: diagramReveal 1.15s cubic-bezier(.2,.9,.2,1) both .15s; box-shadow: 0 20px 38px rgba(0,0,0,.10); position: relative; }
+.votePie:after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: conic-gradient(from 0deg, rgba(255,255,255,.92) 0deg 2.1deg, transparent 2.1deg 360deg); mix-blend-mode: screen; }
+.mapCardBody { position: relative; min-height: 560px; background: #fff; display: grid; place-items: center; padding: 34px 20px; overflow: hidden; }
+.mapControls { position: absolute; left: 26px; top: 42px; z-index: 3; display: grid; }
+.mapControls button { width: 32px; height: 32px; border: 1px solid #aaa; background: #fff; color: #111; font-size: 22px; font-weight: 800; line-height: 1; }
+.wbShape { width: 300px; height: 460px; display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 18px; gap: 2px; align-content: center; transform: rotate(2deg); animation: mapFloat 4.8s ease-in-out infinite; }
+.wbShape span { clip-path: polygon(18% 0, 100% 11%, 84% 100%, 0 78%); border: 1px solid #fff; border-radius: 2px; opacity: 0; animation: tileIn .55s ease forwards; }
+.wbShape span:nth-child(odd) { animation-delay: .03s; }
+.wbShape span:nth-child(3n) { animation-delay: .09s; }
+.wbShape span:nth-child(5n) { animation-delay: .14s; }
+.wbShape .bjp { background: #ff8b45; }
+.wbShape .aitc { background: #a9bad9; }
+.wbShape .inc { background: #22a8dd; }
+.wbShape .cpm { background: #ff1d1d; }
+.wbShape .aisf { background: #70ef72; }
+.wbShape span:nth-child(12n+1), .wbShape span:nth-child(12n+2), .wbShape span:nth-child(12n+3) { transform: translateY(-118px) translateX(28px); }
+.wbShape span:nth-child(12n+10), .wbShape span:nth-child(12n+11), .wbShape span:nth-child(12n+12) { transform: translateY(92px) translateX(-24px); }
+.wbShape span:nth-child(n+96) { transform: translateY(40px) translateX(18px) scale(.92); }
+.mapCardBody small { position: absolute; right: 18px; bottom: 12px; color: #111; font-weight: 700; }
+.glanceButton { display: block; width: min(760px, 86%); margin: 28px auto 0; padding: 16px 18px; text-align: center; border-radius: 6px; background: #146de8; color: #fff; font-size: clamp(22px, 4vw, 32px); font-weight: 900; text-decoration: none; box-shadow: 0 16px 28px rgba(20,109,232,.25); }
+.glanceButton:hover { transform: translateY(-1px); }
+@keyframes diagramReveal { from { clip-path: circle(0 at 50% 50%); transform: rotate(-90deg) scale(.92); opacity: .35; } to { clip-path: circle(72% at 50% 50%); transform: rotate(-90deg) scale(1); opacity: 1; } }
+@keyframes softPulse { 0%, 100% { filter: saturate(1); } 50% { filter: saturate(1.12); } }
+@keyframes cardLift { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tileIn { from { opacity: 0; transform: translateY(8px) scale(.72); } to { opacity: 1; } }
+@keyframes mapFloat { 0%, 100% { filter: drop-shadow(0 8px 8px rgba(0,0,0,.08)); } 50% { filter: drop-shadow(0 14px 12px rgba(0,0,0,.12)); } }
+@media (prefers-reduced-motion: reduce) { .seatDonut, .votePie, .diagramCard, .wbShape, .wbShape span { animation: none !important; opacity: 1; } }
 .muted { color: #9fb0c4; }
 footer { text-align: center; color: #8495a9; margin-top: 28px; font-size: 14px; }
 
-@media (max-width: 900px) { .partyCards { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 900px) { .partyCards { grid-template-columns: repeat(3, 1fr); } .diagramGrid { grid-template-columns: 1fr; } .diagramCard.wideDiagram { grid-column: auto; } .voteShareLayout { grid-template-columns: 1fr; justify-items: center; } .voteLegend { justify-self: start; } }
 @media (max-width: 760px) {
   main { padding: 20px 12px 42px; }
   .hero { padding: 30px 20px; }
@@ -113,4 +158,15 @@ footer { text-align: center; color: #8495a9; margin-top: 28px; font-size: 14px; 
   .row { grid-template-columns: 40px 1fr 60px; }
   .bar { grid-column: 2 / 4; }
   .resultHead, .resultLine { grid-template-columns: 1fr 54px 72px 54px; padding: 12px 10px; font-size: 13px; }
+  .diagramPanel { padding: 12px; }
+  .diagramTitle { font-size: 27px; display: grid; }
+  .diagramTitle select { min-width: 100%; }
+  .seatDonut { width: min(330px, 82vw); }
+  .chartLegend { font-size: 18px; gap: 12px 18px; }
+  .chartLegend i { width: 56px; }
+  .voteShareLayout { padding: 34px 16px; }
+  .voteLegend { font-size: 18px; gap: 10px; }
+  .voteLegend i { width: 62px; }
+  .mapCardBody { min-height: 640px; }
+  .wbShape { width: 255px; height: 500px; grid-auto-rows: 16px; }
 }
